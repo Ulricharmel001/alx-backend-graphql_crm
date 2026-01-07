@@ -4,11 +4,7 @@ import os
 from django.conf import settings
 
 def log_crm_heartbeat():
-    """
-    Logs a heartbeat message every 5 minutes to confirm the CRM application's health.
-    Logs message in format DD/MM/YYYY-HH:MM:SS CRM is alive to /tmp/crm_heartbeat_log.txt
-    Optionally queries the GraphQL hello field to verify the endpoint is responsive.
-    """
+
     # Get current timestamp in DD/MM/YYYY-HH:MM:SS format
     timestamp = datetime.datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
     
@@ -20,9 +16,9 @@ def log_crm_heartbeat():
     with open(log_file_path, "a") as log_file:
         log_file.write(message + "\n")
     
-    # Optionally query GraphQL endpoint to verify it's responsive
+    # query GraphQL endpoint to verify it's responsive
     try:
-        # Assuming the GraphQL endpoint is at /graphql/
+      
         graphql_url = "http://localhost:8000/graphql/"
         
         # Simple query to test if GraphQL is working
