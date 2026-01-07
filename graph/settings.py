@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'graphene_django',
+    'django_crontab',
     'shop',
 ]
 
@@ -69,6 +70,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'graph.wsgi.application'
+
+# Cron jobs
+CRONJOBS = [
+    ("*/5 * * * *", "crm.cron.log_crm_heartbeat"),
+]
+
 
 GRAPHENE = {
     'SCHEMA': 'shop.schema.schema'
