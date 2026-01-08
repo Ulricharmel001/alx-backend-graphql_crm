@@ -1,2 +1,7 @@
-django-crontab>=0.7.1
-gql>=3.0.0
+django-crontab
+celery
+django-celery-beat
+redis
+requests
+gql
+
