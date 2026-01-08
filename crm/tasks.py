@@ -2,6 +2,7 @@ import logging
 from celery import shared_task
 from datetime import datetime
 from django.db.models import Sum
+import requests
 
 logger = logging.getLogger(__name__)
 
