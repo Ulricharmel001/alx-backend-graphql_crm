@@ -1,6 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
-from .models import Customer, Order, Product
+from shop.models import Customer, Order, Product
 
 
 class CustomerType(DjangoObjectType):
@@ -23,7 +23,7 @@ class ProductType(DjangoObjectType):
 
 class UpdateLowStockProducts(graphene.Mutation):
     class Arguments:
-        pass  # No arguments needed, will query internally
+        pass  
 
     success = graphene.Boolean()
     message = graphene.String()

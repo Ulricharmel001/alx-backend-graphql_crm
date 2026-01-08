@@ -65,3 +65,60 @@ def log_crm_heartbeat():
 
 if __name__ == "__main__":
     log_crm_heartbeat()
+
+
+def update_low_stock():
+    """
+    Executes the UpdateLowStockProducts mutation via the GraphQL endpoint.
+    Logs updated product names and new stock levels to /tmp/low_stock_updates_log.txt with a timestamp.
+    """
+    # Get current timestamp
+    timestamp = datetime.datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
+    
+    try:
+        # Create a transport for the GraphQL client
+        transport = RequestsHTTPTransport(url="http://localhost:8000/graphql/")
+        
+        # Create the GraphQL client
+        client = Client(transport=transport, fetch_schema_from_transport=True)
+        
+        # Define the mutation to update low stock products
+        mutation = gql("""
+        mutation {
+          updateLowStockProducts {
+            success
+            message
+            updatedProducts {
+              id
+              name
+              stock
+            }
+          }
+        }
+        """)
+        
+        # Execute the mutation
+        result = client.execute(mutation)
+        
+        # Extract the results
+        update_result = result["updateLowStockProducts"]
+        success = update_result["success"]
+        message = update_result["message"]
+        updated_products = update_result.get("updatedProducts", [])
+        
+        # Log to file
+        log_file_path = "/tmp/low_stock_updates_log.txt"
+        with open(log_file_path, "a") as log_file:
+            log_file.write(f"{timestamp} Low stock update: {message}
+")
+            for product in updated_products:
+                log_file.write(f"{timestamp} Updated product: {product['name']}, new stock: {product['stock']}
+")
+                
+    except Exception as e:
+        # Log exception if there's an error
+        error_message = f"{timestamp} Low stock update failed: {str(e)}"
+        log_file_path = "/tmp/low_stock_updates_log.txt"
+        with open(log_file_path, "a") as log_file:
+            log_file.write(error_message + "
+")

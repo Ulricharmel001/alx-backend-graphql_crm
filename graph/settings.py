@@ -78,7 +78,7 @@ CRONJOBS = [
 
 
 GRAPHENE = {
-    'SCHEMA': 'shop.schema.schema'
+    'SCHEMA': 'crm.schema.schema'
 }
 
 
